@@ -1,0 +1,14 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: qdrant-service
+  namespace: qdrant-cluster
+spec:
+  selector:
+    app: qdrant
+  type: NodePort
+  ports:
+    - name: qdrant-http
+      port: 6333
+      targetPort: 6333
+      nodePort: 30033
