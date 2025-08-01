@@ -33,7 +33,7 @@ resources:
 # Pod disruption budget
 podDisruptionBudget:
   enabled: true
-  minAvailable: 2
+  maxUnavailable: 1
 
 # Anti-affinity to spread pods across nodes
 affinity:
