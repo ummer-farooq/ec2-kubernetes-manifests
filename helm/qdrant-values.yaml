@@ -56,6 +56,8 @@ config:
     p2p:
       port: 6335
   service:
+    api_key: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhY2Nlc3MiOiJtIn0.n2yKxIKmN86Rh4eGTivFt42VgRtOAgnXMR5FNPBxAsU"
+    read_only_api_key: "your_secret_read_only_api_key_here"
     http_port: 6333
     grpc_port: 6334
   storage:
