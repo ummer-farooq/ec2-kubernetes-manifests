@@ -1,0 +1,84 @@
+# QDrant Cluster Configuration
+replicaCount: 3
+
+image:
+  repository: qdrant/qdrant
+  tag: "v1.7.4"
+  pullPolicy: IfNotPresent
+
+# Service configuration
+service:
+  type: NodePort
+  httpPort: 6333
+  grpcPort: 6334
+  httpNodePort: 30333
+  grpcNodePort: 30334
+
+# Persistent storage
+persistence:
+  enabled: true
+  storageClass: "ebs-gp3"
+  size: 50Gi
+  accessMode: ReadWriteOnce
+
+# Resource limits
+resources:
+  limits:
+    cpu: 1000m
+    memory: 2Gi
+  requests:
+    cpu: 500m
+    memory: 1Gi
+
+# Pod disruption budget
+podDisruptionBudget:
+  enabled: true
+  minAvailable: 2
+
+# Anti-affinity to spread pods across nodes
+affinity:
+  podAntiAffinity:
+    preferredDuringSchedulingIgnoredDuringExecution:
+    - weight: 100
+      podAffinityTerm:
+        labelSelector:
+          matchExpressions:
+          - key: app.kubernetes.io/name
+            operator: In
+            values:
+            - qdrant
+        topologyKey: kubernetes.io/hostname
+
+# QDrant specific configuration
+config:
+  cluster:
+    enabled: true
+    p2p:
+      port: 6335
+  service:
+    http_port: 6333
+    grpc_port: 6334
+  storage:
+    storage_path: "/qdrant/storage"
+    snapshots_path: "/qdrant/snapshots"
+    on_disk_payload: true
+  log_level: "INFO"
+
+# Environment variables for clustering
+env:
+  - name: QDRANT__CLUSTER__ENABLED
+    value: "true"
+  - name: QDRANT__CLUSTER__P2P__PORT
+    value: "6335"
+
+# Security context
+securityContext:
+  runAsNonRoot: true
+  runAsUser: 1000
+  fsGroup: 1000
+
+# Node selector to ensure pods are scheduled on our nodes
+nodeSelector: {}
+
+# Tolerations
+tolerations: []
