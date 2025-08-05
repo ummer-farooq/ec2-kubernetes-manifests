@@ -15,7 +15,7 @@ service:
 
 persistence:
   enabled: true
-  storageClass: "gp3-gp3"
+  storageClass: "ebs-gp3"
   size: 50Gi
   accessModes:
   - ReadWriteOnce
