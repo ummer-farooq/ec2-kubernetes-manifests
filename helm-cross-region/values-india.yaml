@@ -1,5 +1,5 @@
 # Qdrant Cluster India Region Configuration
-replicaCount: 2
+replicaCount: 3
 
 image:
   repository: qdrant/qdrant
@@ -17,7 +17,8 @@ persistence:
   enabled: true
   storageClass: "gp3-ssd"
   size: 50Gi
-  accessMode: ReadWriteOnce
+  accessModes:
+  - ReadWriteOnce
 
 
 resources:
@@ -72,8 +73,6 @@ config:
 env:
   - name: QDRANT__CLUSTER__ENABLED
     value: "true"
-  - name: QDRANT__CLUSTER__NODE_ID
-    value: "india-shard"
   - name: QDRANT__CLUSTER__P2P__PORT
     value: "6335"
 
