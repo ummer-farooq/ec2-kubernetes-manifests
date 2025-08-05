@@ -1,5 +1,5 @@
 # Qdrant Cluster India Region Configuration
-replicaCount: 3
+replicaCount: 2
 
 image:
   repository: qdrant/qdrant
