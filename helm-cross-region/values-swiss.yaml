@@ -3,7 +3,7 @@ replicaCount: 1
 
 image:
   repository: qdrant/qdrant
-  tag: "latest"
+  tag: "v1.7.4"
   pullPolicy: IfNotPresent
 
 service:
