@@ -1,4 +1,6 @@
 # Qdrant Cluster Switzerland Region Configuration
+#values-swiss.yaml
+
 replicaCount: 1
 
 image:
@@ -15,7 +17,7 @@ service:
 
 persistence:
   enabled: true
-  storageClass: "ebs-gp3"
+  storageClass: "ebs-gp3-eu"
   size: 50Gi
   accessMode: ReadWriteOnce
 
