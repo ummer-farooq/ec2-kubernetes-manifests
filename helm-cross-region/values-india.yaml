@@ -15,7 +15,7 @@ service:
 
 persistence:
   enabled: true
-  storageClass: "gp3-ssd"
+  storageClass: "gp3-gp3"
   size: 50Gi
   accessModes:
   - ReadWriteOnce
@@ -24,10 +24,10 @@ persistence:
 resources:
   limits:
     cpu: 2000m
-    memory: 4Gi
-  requests:
-    cpu: 1000m
     memory: 2Gi
+  requests:
+    cpu: 500m
+    memory: 1Gi
 
 
 # Pod disruption budget
@@ -56,8 +56,6 @@ config:
     node_id: "india-cluster"
     p2p:
       port: 6335
-    consensus:
-      max_message_queue_size: 16384
   service:
     api_key: "india-cluster-api-key"
     read_only_api_key: "india-cluster-read-only-api-key"
