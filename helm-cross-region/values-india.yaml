@@ -1,12 +1,11 @@
-# QDrant Cluster Configuration
+# Qdrant Cluster India Region Configuration
 replicaCount: 3
 
 image:
   repository: qdrant/qdrant
-  tag: "v1.7.4"
+  tag: "latest"
   pullPolicy: IfNotPresent
 
-# Service configuration
 service:
   type: NodePort
   httpPort: 6333
@@ -14,28 +13,28 @@ service:
   httpNodePort: 30333
   grpcNodePort: 30334
 
-# Persistent storage
 persistence:
   enabled: true
-  storageClass: "ebs-gp3"
+  storageClass: "gp3-ssd"
   size: 50Gi
   accessMode: ReadWriteOnce
 
-# Resource limits
+
 resources:
   limits:
+    cpu: 2000m
+    memory: 4Gi
+  requests:
     cpu: 1000m
     memory: 2Gi
-  requests:
-    cpu: 500m
-    memory: 1Gi
+
 
 # Pod disruption budget
 podDisruptionBudget:
   enabled: true
   maxUnavailable: 1
 
-# Anti-affinity to spread pods across nodes
+
 affinity:
   podAntiAffinity:
     preferredDuringSchedulingIgnoredDuringExecution:
@@ -49,15 +48,18 @@ affinity:
             - qdrant
         topologyKey: kubernetes.io/hostname
 
-# QDrant specific configuration
+
 config:
   cluster:
     enabled: true
+    node_id: "india-cluster"
     p2p:
       port: 6335
+    consensus:
+      max_message_queue_size: 16384
   service:
-    api_key: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhY2Nlc3MiOiJtIn0.n2yKxIKmN86Rh4eGTivFt42VgRtOAgnXMR5FNPBxAsU"
-    read_only_api_key: "your_secret_read_only_api_key_here"
+    api_key: "india-cluster-api-key"
+    read_only_api_key: "india-cluster-read-only-api-key"
     http_port: 6333
     grpc_port: 6334
   storage:
@@ -66,10 +68,12 @@ config:
     on_disk_payload: true
   log_level: "INFO"
 
-# Environment variables for clustering
+
 env:
   - name: QDRANT__CLUSTER__ENABLED
     value: "true"
+  - name: QDRANT__CLUSTER__NODE_ID
+    value: "india-shard"
   - name: QDRANT__CLUSTER__P2P__PORT
     value: "6335"
 
@@ -79,10 +83,7 @@ securityContext:
   runAsUser: 1000
   fsGroup: 1000
 
-# Node selector to ensure pods are scheduled on our nodes
-nodeSelector: {}
+nodeSelector:
+  region: india
 
-# Tolerations
 tolerations: []
-
-
