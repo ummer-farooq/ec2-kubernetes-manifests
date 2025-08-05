@@ -6,7 +6,8 @@ metadata:
 spec:
   type: LoadBalancer
   selector:
-    app.kubernetes.io/name: qdrant
+    app.kubernetes.io/name: qdrant-india
+    app.kubernetes.io/region: india
   ports:
     - name: http
       port: 6333

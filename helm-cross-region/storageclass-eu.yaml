@@ -11,6 +11,7 @@ allowedTopologies:
   - key: topology.ebs.csi.aws.com/zone
     values:
     - eu-central-1a
+    - eu-central-1b
     - eu-central-1c
 volumeBindingMode: WaitForFirstConsumer
 reclaimPolicy: Delete
