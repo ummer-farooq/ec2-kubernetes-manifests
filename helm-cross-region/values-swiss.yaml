@@ -15,18 +15,19 @@ service:
 
 persistence:
   enabled: true
-  storageClass: "gp3-ssd"
+  storageClass: "ebs-gp3"
   size: 50Gi
   accessMode: ReadWriteOnce
 
 
+# Resource limits
 resources:
   limits:
-    cpu: 2000m
-    memory: 4Gi
-  requests:
     cpu: 1000m
     memory: 2Gi
+  requests:
+    cpu: 500m
+    memory: 1Gi
 
 
 # Pod disruption budget
@@ -55,8 +56,6 @@ config:
     node_id: "switzerland-cluster"
     p2p:
       port: 6335
-    consensus:
-      max_message_queue_size: 16384
   service:
     api_key: "switzerland-cluster-api-key"
     read_only_api_key: "switzerland-cluster-read-only-api-key"
@@ -72,8 +71,6 @@ config:
 env:
   - name: QDRANT__CLUSTER__ENABLED
     value: "true"
-  - name: QDRANT__CLUSTER__NODE_ID
-    value: "switzerland-shard"
   - name: QDRANT__CLUSTER__P2P__PORT
     value: "6335"
 
