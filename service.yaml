@@ -3,6 +3,9 @@ kind: Service
 metadata:
   name: qdrant-service
   namespace: qdrant-cluster
+  labels:
+    app: qdrant
+    app.kubernetes.io/name: qdrant
 spec:
   selector:
     app: qdrant

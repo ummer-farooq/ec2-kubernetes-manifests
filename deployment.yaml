@@ -3,6 +3,10 @@ kind: Deployment
 metadata:
   name: qdrant
   namespace: qdrant-cluster
+  labels:
+    app: qdrant
+    app.kubernetes.io/name: qdrant
+    app.kubernetes.io/instance: qdrant
 spec:
   replicas: 1
   selector:
@@ -12,6 +16,8 @@ spec:
     metadata:
       labels:
         app: qdrant
+        app.kubernetes.io/name: qdrant
+        app.kubernetes.io/instance: qdrant
     spec:
       containers:
       - name: qdrant
