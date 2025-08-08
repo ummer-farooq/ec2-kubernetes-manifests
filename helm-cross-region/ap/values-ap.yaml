@@ -1,4 +1,3 @@
-# Qdrant Cluster India Region Configuration
 replicaCount: 3
 
 image:
@@ -10,19 +9,18 @@ service:
   type: NodePort
   httpPort: 6333
   grpcPort: 6334
+  p2pPort: 6335
   httpNodePort: 30333
   grpcNodePort: 30334
   p2pNodePort: 30335
 
-# Namespace configuration
 namespace: qdrant-cluster
 
 persistence:
   enabled: true
-  storageClass: "ebs-gp3-ap"
+  storageClass: "gp3-ssd-ap"
   size: 50Gi
   accessMode: ReadWriteOnce
-
 
 resources:
   limits:
@@ -32,12 +30,9 @@ resources:
     cpu: 500m
     memory: 1Gi
 
-
-# Pod disruption budget
 podDisruptionBudget:
   enabled: true
   maxUnavailable: 1
-
 
 affinity:
   podAntiAffinity:
@@ -49,9 +44,8 @@ affinity:
           - key: app.kubernetes.io/name
             operator: In
             values:
-            - qdrant
+            - qdrant-ap
         topologyKey: kubernetes.io/hostname
-
 
 config:
   cluster:
@@ -70,7 +64,6 @@ config:
     on_disk_payload: true
   log_level: "INFO"
 
-
 env:
   - name: QDRANT__CLUSTER__ENABLED
     value: "true"
@@ -81,7 +74,6 @@ env:
   - name: QDRANT__SERVICE__HOST
     value: "0.0.0.0"
 
-# Security context
 securityContext:
   runAsNonRoot: true
   runAsUser: 1000

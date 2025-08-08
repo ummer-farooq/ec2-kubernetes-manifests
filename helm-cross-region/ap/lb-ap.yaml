@@ -1,28 +1,28 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: qdrant-lb-ap
+  name: qdrant-lb-primary
   namespace: qdrant-cluster
   annotations:
     service.beta.kubernetes.io/aws-load-balancer-type: "nlb"
     service.beta.kubernetes.io/aws-load-balancer-internal: "true"
     service.beta.kubernetes.io/aws-load-balancer-backend-protocol: "tcp"
+    service.beta.kubernetes.io/aws-load-balancer-cross-zone-load-balancing-enabled: "true"
 spec:
   type: LoadBalancer
   selector:
-    app.kubernetes.io/name: qdrant-ap
-    app.kubernetes.io/instance: qdrant-ap
+    app.kubernetes.io/name: qdrant
   ports:
-    - name: http
+    - name: http-api
       port: 6333
       targetPort: 6333
       protocol: TCP
-    - name: grpc
+    - name: grpc-api
       port: 6334
       targetPort: 6334
       protocol: TCP
-    - name: p2p
+    - name: p2p-comm
       port: 6335
       targetPort: 6335
       protocol: TCP
-  sessionAffinity: ClientIP
+  sessionAffinity: None
