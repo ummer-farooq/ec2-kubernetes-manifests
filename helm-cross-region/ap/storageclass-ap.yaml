@@ -11,7 +11,6 @@ parameters:
   encrypted: "true"
   iops: "3000"
   throughput: "125"
-  zone: ap-south-1a,ap-south-1b,ap-south-1c
 allowVolumeExpansion: true
 volumeBindingMode: WaitForFirstConsumer
 reclaimPolicy: Retain
