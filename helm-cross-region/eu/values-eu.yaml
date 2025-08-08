@@ -1,6 +1,4 @@
 # Qdrant Cluster Switzerland Region Configuration
-#values-swiss.yaml
-
 replicaCount: 1
 
 image:
@@ -12,8 +10,13 @@ service:
   type: NodePort
   httpPort: 6333
   grpcPort: 6334
-  httpNodePort: 30333
-  grpcNodePort: 30334
+  p2pPort: 6335
+  httpNodePort: 31333
+  grpcNodePort: 31334
+  p2pNodePort: 31335
+
+# Namespace configuration
+namespace: qdrant-cluster
 
 persistence:
   enabled: true
@@ -48,16 +51,20 @@ affinity:
           - key: app.kubernetes.io/name
             operator: In
             values:
-            - qdrant
+            - qdrant-eu
         topologyKey: kubernetes.io/hostname
 
 
 config:
   cluster:
     enabled: true
-    node_id: "switzerland-cluster"
+    node_id: "eu-cluster-worker-1"
     p2p:
       port: 6335
+      bootstrap:
+        - "qdrant-ap-0.qdrant-ap-headless.qdrant-cluster.svc.cluster.local:6335"
+        - "qdrant-ap-1.qdrant-ap-headless.qdrant-cluster.svc.cluster.local:6335"
+        - "qdrant-ap-2.qdrant-ap-headless.qdrant-cluster.svc.cluster.local:6335"
   service:
     api_key: "switzerland-cluster-api-key"
     read_only_api_key: "switzerland-cluster-read-only-api-key"
@@ -75,6 +82,8 @@ env:
     value: "true"
   - name: QDRANT__CLUSTER__P2P__PORT
     value: "6335"
+  - name: QDRANT__CLUSTER__NODE_ID
+    value: "eu-cluster-worker-1"
 
 # Security context
 securityContext:
@@ -83,6 +92,6 @@ securityContext:
   fsGroup: 1000
 
 nodeSelector:
-  region: switzerland
+  topology.kubernetes.io/region: eu-central-1
 
 tolerations: []

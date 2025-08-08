@@ -1,11 +1,11 @@
 apiVersion: storage.k8s.io/v1
 kind: StorageClass
 metadata:
-  name: gp3-ssd
+  name: ebs-gp3-eu
 provisioner: ebs.csi.aws.com
 parameters:
   type: gp3
   fsType: ext4
-  encrypted: "true"
+  zone: eu-central-1a,eu-central-1b,eu-central-1c
 allowVolumeExpansion: true
 volumeBindingMode: WaitForFirstConsumer

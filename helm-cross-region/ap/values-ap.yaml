@@ -12,18 +12,21 @@ service:
   grpcPort: 6334
   httpNodePort: 30333
   grpcNodePort: 30334
+  p2pNodePort: 30335
+
+# Namespace configuration
+namespace: qdrant-cluster
 
 persistence:
   enabled: true
-  storageClass: "ebs-gp3"
+  storageClass: "ebs-gp3-ap"
   size: 50Gi
-  accessModes:
-  - ReadWriteOnce
+  accessMode: ReadWriteOnce
 
 
 resources:
   limits:
-    cpu: 2000m
+    cpu: 1000m
     memory: 2Gi
   requests:
     cpu: 500m
@@ -53,12 +56,12 @@ affinity:
 config:
   cluster:
     enabled: true
-    node_id: "india-cluster"
+    node_id: "ap-master-node"
     p2p:
       port: 6335
   service:
-    api_key: "india-cluster-api-key"
-    read_only_api_key: "india-cluster-read-only-api-key"
+    api_key: "cross-region-cluster-api-key"
+    read_only_api_key: "cross-region-read-only-key"
     http_port: 6333
     grpc_port: 6334
   storage:
@@ -73,6 +76,10 @@ env:
     value: "true"
   - name: QDRANT__CLUSTER__P2P__PORT
     value: "6335"
+  - name: QDRANT__CLUSTER__NODE_ID
+    value: "ap-master-node"
+  - name: QDRANT__SERVICE__HOST
+    value: "0.0.0.0"
 
 # Security context
 securityContext:
@@ -81,6 +88,10 @@ securityContext:
   fsGroup: 1000
 
 nodeSelector:
-  region: india
+  topology.kubernetes.io/region: ap-south-1
 
 tolerations: []
+
+labels:
+  region: ap-south-1
+  cluster-role: master
